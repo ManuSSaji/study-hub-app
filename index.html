@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1f6feb"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="icon-192.png">
+<title>GATE ME Study Hub (GitHub sync)</title>
+<style>
+:root{--bg:#f6f5f1;--sf:#fff;--tx:#1d1d1b;--mu:#6b6a64;--ac:#1f6feb;--bd:#e2e0d8;--ok:#1a7f4b;--bad:#c0392b;--wn:#b9770e;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141413;--sf:#1e1e1c;--tx:#ecebe6;--mu:#9b9a92;--ac:#5b9bff;--bd:#33332f;--ok:#4cc38a;--bad:#ff7a6b;--wn:#e0a84a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141413;--sf:#1e1e1c;--tx:#ecebe6;--mu:#9b9a92;--ac:#5b9bff;--bd:#33332f;--ok:#4cc38a;--bad:#ff7a6b;--wn:#e0a84a;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:720px;margin:0 auto;padding:12px 12px 40px}
+h1{font-size:20px;margin:4px 0 0}h2{font-size:16px;margin:0 0 8px}small,.mu{color:var(--mu);font-size:12.5px}
+#tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 0;-webkit-overflow-scrolling:touch}
+#tabs button{flex:none;border:1px solid var(--bd);background:var(--sf);color:var(--tx);padding:7px 13px;border-radius:99px;font:inherit}
+#tabs button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:12px}
+.row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--bd)}.row:first-of-type{border-top:0}
+.grow{flex:1;min-width:0;overflow-wrap:anywhere}.grow small{display:block}
+button{font:inherit;color:var(--tx)}
+.ck{width:28px;height:28px;border-radius:8px;border:2px solid var(--bd);background:transparent;color:transparent;flex:none}
+.ck.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.x{border:0;background:transparent;color:var(--mu);font-size:16px;padding:4px 8px}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:9px 14px}.btn.g{background:transparent;color:var(--ac);border:1px solid var(--bd)}
+input,select,textarea{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;width:100%;min-width:0}
+textarea{min-height:70px}.f{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}.f .w{grid-column:1/-1}
+.bar{height:6px;background:var(--bd);border-radius:9px;overflow:hidden;margin:4px 0}.bar i{display:block;height:100%;background:var(--ok)}
+.tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:99px;border:1px solid var(--bd);margin-right:4px}
+.bad{color:var(--bad)}.wn{color:var(--wn)}.ok{color:var(--ok)}
+.days{display:flex;gap:4px}.days button{width:30px;height:30px;border-radius:8px;border:1px solid var(--bd);background:transparent;font-size:11px}.days button.on{background:var(--ok);border-color:var(--ok);color:#fff}
+details>summary{cursor:pointer;font-weight:600;padding:4px 0}
+.alert{border-left:4px solid var(--bad);padding:8px 10px;background:var(--bg);border-radius:8px;margin-bottom:8px}
+</style></head>
+<body>
+<h1>GATE ME Study Hub</h1><small id="sub"></small>
+<div id="tabs"></div><div id="v"></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+const D=(n=0)=>{const d=new Date();d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const dd=d=>Math.round((new Date(d+'T00:00')-new Date(D()+'T00:00'))/864e5);
+const dl=d=>{const n=dd(d);return n<0?`<span class="bad">${-n}d overdue</span>`:n==0?'<span class="wn">due today</span>':n==1?'<span class="wn">due tomorrow</span>':`in ${n}d (${d})`};
+const SYL=`Engineering Mathematics: Linear algebra|Calculus|Differential equations|Complex variables|Probability and statistics|Numerical methods
+Engineering Mechanics: Equilibrium and FBD|Trusses and frames|Friction|Virtual work|Particle and rigid body kinematics and dynamics|Impulse-momentum and energy methods
+Mechanics of Materials: Stress and strain|Mohr circle|SFD and BMD|Beam bending and deflection|Torsion|Buckling|Thin cylinders|Failure theories
+Theory of Machines: Mechanisms and four-bar|Cams|Gears and gear trains|Flywheel|Governors|Balancing|Slider-crank dynamics
+Vibrations: Free vibration|Damped vibration|Forced vibration and resonance|Transmissibility|Critical speed
+Machine Design: Static and fatigue loading|Bolted, riveted and welded joints|Shafts|Spur gears|Bearings|Brakes and clutches
+Fluid Mechanics: Properties and statics|Control volume analysis|Bernoulli and Euler|Dimensional analysis|Pipe flow|Boundary layer|Turbomachinery
+Heat Transfer: Conduction|Fins|Convection|Radiation|Heat exchangers (LMTD, NTU)
+Thermodynamics: Laws and cycles|Pure substances and steam|Entropy and availability|Gas mixtures and psychrometrics
+Thermal Applications: Rankine and Brayton cycles|IC engines|Refrigeration and air-conditioning
+Engineering Materials: Crystal structure and defects|Phase diagrams|Heat treatment|Mechanical properties
+Casting, Forming and Joining: Casting|Metal forming|Sheet metal|Welding
+Machining and Metrology: Machining and tool life|Non-traditional machining|Metrology and limits, fits|CIM and NC
+Industrial Engineering: PERT and CPM|Forecasting|Inventory control|Scheduling and PPC|Linear programming|Queueing
+General Aptitude: Verbal|Numerical|Reasoning`;
+const seed=()=>({habits:[{id:uid(),name:'Study 2+ hours',days:{}},{id:uid(),name:'Solve PYQs',days:{}},{id:uid(),name:'Revise mistakes',days:{}}],tasks:[],notified:{},
+syl:SYL.split('\n').map(l=>{const[n,t]=l.split(': ');return{n,t:t.split('|').map(x=>({t:x,d:0}))}}),pyq:[],notes:[]});
+let S,tab='today',filt='all',cur='GATE',ref=null,tm;
+const KTU={
+S1:'Mathematics for Physical Science-1|Physics for Physical Science (S1/S2)|Engineering Mechanics|Introduction to Mechanical and Civil Engineering|Algorithmic Thinking with Python|Engineering Workshop*',
+S2:'Mathematics for Physical Science-2|Chemistry for Physical Science (S1/S2)|Engineering Graphics and Computer Aided Drawing|Basic Electrical and Electronics Engineering|Material Science and Engineering|Engineering Entrepreneurship and IPR|Basic Electrical and Electronics Workshop*',
+S3:'Mathematics for Physical Science-3|Mechanics of Solids|Fluid Mechanics and Machinery|Manufacturing Processes|Introduction to AI and Data Science|Economics for Engineers or Ethics and Sustainable Development (S3/S4)|Computer Aided Machine Drawing and Modelling*|Materials Testing Lab*',
+S4:'Mathematics for Physical Science-4|Machine Tools and Metrology|Engineering Thermodynamics|Mechanics of Machinery|Program Elective-1 (your pick)|Economics for Engineers or Ethics and Sustainable Development (S3/S4)|Fluid Mechanics and Hydraulic Machines Lab*|Manufacturing Technology Lab*',
+S5:'Dynamics of Machinery|Advanced Manufacturing Engineering|Heat and Mass Transfer|Management for Engineers|Program Elective-2 (your pick)|Thermal Engineering Lab-1*|Mechanical Engineering Lab*',
+S6:'Industrial and Systems Engineering|Machine Design|Program Elective-3 (your pick)|Thermal Engineering|Design Thinking and Product Development|Open Elective-1 (your pick)|Computer Aided Design and Analysis Lab*|Thermal Engineering Lab-2*',
+S7:'Program Elective-4 (your pick)|Program Elective-5 (your pick)|Open Elective-2 (your pick)|University Elective (Project Management or language)',
+S8:'Program Elective-6 (your pick)|Open Elective-3 (your pick)|Organizational Behavior and Business Communication'};
+const mk=n=>n.endsWith('*')?{n:n.slice(0,-1),t:[{t:'Experiments and record',d:0}]}:{n,t:[1,2,3,4,5].map(i=>({t:'Module '+i,d:0}))};
+function norm(){if(!S.sets){S.sets={GATE:S.syl};delete S.syl}for(let i=1;i<=8;i++)S.sets['S'+i]=S.sets['S'+i]||[];
+ if(!S.ktu){for(const k in KTU)if(!S.sets[k].length)S.sets[k]=KTU[k].split('|').map(mk);S.ktu=1}}
+const SY=()=>S.sets[cur];const TR=['GATE','S1','S2','S3','S4','S5','S6','S7','S8'];const tl=k=>k=='GATE'?'GATE ME':k+' ME';
+try{S=JSON.parse(localStorage.getItem('gatehub'))}catch(e){}
+if(!S||(!S.syl&&!S.sets))S=seed();norm();
+const save=()=>{try{localStorage.setItem('gatehub',JSON.stringify(S))}catch(e){}ghAuto();
+ if(ref){clearTimeout(tm);tm=setTimeout(()=>ref.set({json:JSON.stringify(S)}).catch(()=>{}),700)}};
+const streak=h=>{let n=0,i=h.days[D()]?0:1;while(h.days[D(-i)]){n++;i++}return n};
+const rowT=x=>`<div class="row"><button class="ck ${x.done?'on':''}" data-a="doneTask" data-k="${x.id}">✓</button><div class="grow"><b${x.done?' style="text-decoration:line-through;opacity:.6"':''}>${esc(x.title)}</b><small>${esc(x.type)} · ${dl(x.due)}</small></div><button class="x" data-a="delTask" data-k="${x.id}">✕</button></div>`;
+const openT=()=>S.tasks.filter(x=>!x.done).sort((a,b)=>a.due.localeCompare(b.due));
+const TABS=[['today','Today'],['tasks','Tasks'],['habits','Habits'],['syl','Syllabus'],['pyq','PYQ log'],['notes','Notes'],['sync','Sync']];
+const V={
+today(){const t=D(),o=openT(),od=o.filter(x=>x.due<t),dt=o.filter(x=>x.due==t),sn=o.filter(x=>x.due>t&&dd(x.due)<=3);
+ const hd=S.habits.filter(h=>h.days[t]).length,all=Object.values(S.sets).flat(),tot=all.reduce((a,s)=>a+s.t.length,0),dn=all.reduce((a,s)=>a+s.t.filter(x=>x.d).length,0);
+ const rev=S.pyq.filter(p=>p.rev&&!p.fix).length;
+ let h='';
+ if(od.length)h+=`<div class="alert"><b class="bad">Overdue (${od.length})</b>${od.map(rowT).join('')}</div>`;
+ h+=`<div class="card"><h2>Due today and soon</h2>${(dt.concat(sn)).map(rowT).join('')||'<small>Nothing due in the next 3 days.</small>'}</div>`;
+ h+=`<div class="card"><h2>Habits today (${hd}/${S.habits.length})</h2>${S.habits.map(x=>`<div class="row"><button class="ck ${x.days[t]?'on':''}" data-a="hab" data-k="${x.id}" data-d="${t}">✓</button><div class="grow"><b>${esc(x.name)}</b><small>Streak ${streak(x)} days</small></div></div>`).join('')||'<small>Add habits in the Habits tab.</small>'}</div>`;
+ h+=`<div class="card"><h2>Progress</h2><small>Syllabus ${dn}/${tot} topics</small><div class="bar"><i style="width:${tot?dn/tot*100:0}%"></i></div><small>${rev} PYQ questions waiting for revision</small></div>`;
+ h+=`<div class="card"><h2>Reminders</h2><small>Alerts fire while this page is open. For phone alerts when it is closed, ask Claude to add your deadlines to your calendar.</small><p><button class="btn g" data-a="notif">Enable alerts on this device</button></p></div>`;
+ return h},
+tasks(){const o=openT(),d=S.tasks.filter(x=>x.done);
+ return `<div class="card"><h2>New task or assignment</h2><div class="f"><input id="tt" class="w" placeholder="What needs doing?"><input id="td" type="date" value="${D(1)}"><select id="ty"><option>Assignment</option><option>Study</option><option>Exam prep</option><option>Other</option></select></div><button class="btn" data-a="addTask">Add</button></div>
+ <div class="card"><h2>Pending (${o.length})</h2>${o.map(rowT).join('')||'<small>All clear.</small>'}</div>
+ ${d.length?`<div class="card"><h2>Done (${d.length})</h2>${d.map(rowT).join('')}<p><button class="btn g" data-a="clearDone">Clear done</button></p></div>`:''}`},
+habits(){const days=[6,5,4,3,2,1,0].map(n=>D(-n));
+ return `<div class="card"><h2>New habit</h2><div class="f"><input id="hn" class="w" placeholder="e.g. Wake by 6, Thermo notes"></div><button class="btn" data-a="addHab">Add</button></div>
+ ${S.habits.map(h=>`<div class="card"><div class="row" style="border:0;padding-top:0"><div class="grow"><b>${esc(h.name)}</b><small>Streak ${streak(h)} days</small></div><button class="x" data-a="delHab" data-k="${h.id}">✕</button></div><div class="days">${days.map(d=>`<button class="${h.days[d]?'on':''}" data-a="hab" data-k="${h.id}" data-d="${d}">${new Date(d+'T00:00').toLocaleDateString('en',{weekday:'narrow'})}</button>`).join('')}</div></div>`).join('')}`},
+syl(){const sel=`<div class="card"><h2>Syllabus</h2><select id="tr" data-a="track">${TR.map(k=>`<option value="${k}"${cur==k?' selected':''}>${tl(k)}</option>`).join('')}</select></div>`;return sel+(SY().length?'':'<div class="card"><small>No subjects yet for this semester. Add them below.</small></div>')+SY().map((s,i)=>{const dn=s.t.filter(x=>x.d).length;
+ return `<div class="card"><details><summary>${esc(s.n)} <small>${dn}/${s.t.length}</small></summary><div class="bar"><i style="width:${s.t.length?dn/s.t.length*100:0}%"></i></div>
+ ${s.t.map((x,j)=>`<div class="row"><button class="ck ${x.d?'on':''}" data-a="top" data-k="${i}:${j}">✓</button><div class="grow">${esc(x.t)}</div><button class="x" data-a="delTop" data-k="${i}:${j}">✕</button></div>`).join('')}
+ <div class="f" style="margin-top:8px"><input id="nt${i}" class="w" placeholder="Add topic"></div><button class="btn g" data-a="addTop" data-k="${i}">Add topic</button></details></div>`}).join('')
+ +`<div class="card"><h2>Add subject</h2><div class="f"><input id="ns" class="w" placeholder="Subject name"></div><button class="btn" data-a="addSub">Add</button></div>`},
+pyq(){const L=S.pyq.filter(p=>filt=='all'||(filt=='rev'&&p.rev&&!p.fix)||(filt=='hard'&&p.diff=='Hard'));
+ return `<div class="card"><h2>Log a question</h2><div class="f"><select id="ps" class="w">${TR.flatMap(k=>S.sets[k].map(s=>`<option>${tl(k)}: ${esc(s.n)}</option>`)).join('')}</select><input id="pq" placeholder="Question no."><input id="py" type="number" placeholder="Year" min="1990" max="2100"><select id="pd"><option>Easy</option><option>Hard</option></select><select id="pr"><option value="1">Revise later</option><option value="0">No revision</option></select><textarea id="pi" class="w" placeholder="Mistake or issue (what went wrong?)"></textarea></div><button class="btn" data-a="addPyq">Save</button></div>
+ <div class="card"><div class="f" style="margin:0"><select id="pf" data-a="filt">${[['all','All'],['rev','To revise'],['hard','Hard']].map(([k,l])=>`<option value="${k}"${filt==k?' selected':''}>${l}</option>`).join('')}</select><button class="btn g" data-a="copyMd">Copy as Markdown</button></div>
+ ${L.map(p=>`<div class="row"><div class="grow"><b>${esc(p.s)}</b> Q${esc(p.q)} ${esc(p.y)}<small><span class="tag">${p.diff}</span>${p.rev?`<span class="tag">${p.fix?'revised':'to revise'}</span>`:''}</small>${p.i?`<small>${esc(p.i)}</small>`:''}</div>${p.rev?`<button class="ck ${p.fix?'on':''}" data-a="fixPyq" data-k="${p.id}">✓</button>`:''}<button class="x" data-a="delPyq" data-k="${p.id}">✕</button></div>`).join('')||'<small>No entries yet.</small>'}</div>`},
+notes(){return `<div class="card"><h2>New note</h2><div class="f"><select id="ns2" class="w">${TR.flatMap(k=>S.sets[k].map(s=>`<option>${tl(k)}: ${esc(s.n)}</option>`)).join('')}</select><input id="nn" class="w" placeholder="Title"><textarea id="nb" class="w" style="min-height:110px" placeholder="Notes, formulas, links to study material"></textarea></div><button class="btn" data-a="addNote">Save</button></div>
+ ${S.notes.map(n=>`<div class="card"><details><summary>${esc(n.t)} <small>${esc(n.s)}</small></summary><p style="white-space:pre-wrap">${esc(n.b)}</p><button class="btn g" data-a="delNote" data-k="${n.id}">Delete</button></details></div>`).join('')}`}};
+const g=id=>($('#'+id)||{}).value||'';
+const A={
+tab:k=>{tab=k;R()},
+hab:(k,b)=>{const h=S.habits.find(x=>x.id==k),d=b.dataset.d;if(h.days[d])delete h.days[d];else h.days[d]=1;go()},
+addHab:()=>{const n=g('hn').trim();if(n){S.habits.push({id:uid(),name:n,days:{}});go()}},
+delHab:k=>{if(confirm('Delete this habit?')){S.habits=S.habits.filter(x=>x.id!=k);go()}},
+addTask:()=>{const t=g('tt').trim(),d=g('td');if(t&&d){S.tasks.push({id:uid(),title:t,due:d,type:g('ty'),done:0});go()}},
+doneTask:k=>{const x=S.tasks.find(y=>y.id==k);x.done=x.done?0:1;go()},
+delTask:k=>{S.tasks=S.tasks.filter(x=>x.id!=k);go()},
+clearDone:()=>{S.tasks=S.tasks.filter(x=>!x.done);go()},
+top:k=>{const[i,j]=k.split(':');const x=SY()[i].t[j];x.d=x.d?0:1;go(1)},
+delTop:k=>{const[i,j]=k.split(':');SY()[i].t.splice(j,1);go(1)},
+addTop:i=>{const t=g('nt'+i).trim();if(t){SY()[i].t.push({t,d:0});go(1)}},
+addSub:()=>{const n=g('ns').trim();if(n){SY().push({n,t:[]});go()}},
+addPyq:()=>{const s=g('ps');if(!g('pq').trim())return;S.pyq.unshift({id:uid(),s,q:g('pq').trim(),y:g('py'),i:g('pi').trim(),diff:g('pd'),rev:g('pr')=='1',fix:0});go()},
+fixPyq:k=>{const p=S.pyq.find(x=>x.id==k);p.fix=p.fix?0:1;go()},
+delPyq:k=>{S.pyq=S.pyq.filter(x=>x.id!=k);go()},
+filt:()=>{filt=g('pf');R()},
+track:()=>{cur=g('tr');R()},
+copyMd:async()=>{const m='| Subject | Q | Year | Difficulty | Issue |\n|---|---|---|---|---|\n'+S.pyq.map(p=>`| ${p.s} | ${p.q} | ${p.y} | ${p.diff} | ${(p.i||'').replace(/\|/g,'/').replace(/\n/g,' ')} |`).join('\n');
+ try{await navigator.clipboard.writeText(m);alert('Copied. Paste it into your Obsidian note.')}catch(e){prompt('Copy this:',m)}},
+addNote:()=>{const t=g('nn').trim();if(t){S.notes.unshift({id:uid(),s:g('ns2'),t,b:g('nb')});go()}},
+delNote:k=>{S.notes=S.notes.filter(x=>x.id!=k);go()},
+notif:async()=>{try{const r=await Notification.requestPermission();alert(r=='granted'?'Alerts on. They fire while this page is open.':'Alerts were not allowed on this device.');check()}catch(e){alert('This device does not allow alerts from this page.')}}};
+function go(keep){save();if(keep){const o=[...document.querySelectorAll('details')].map(d=>d.open);R();document.querySelectorAll('details').forEach((d,i)=>d.open=!!o[i])}else R()}
+function R(){$('#tabs').innerHTML=TABS.map(([k,l])=>`<button class="${k==tab?'on':''}" data-a="tab" data-k="${k}">${l}</button>`).join('');
+ $('#v').innerHTML=V[tab]();$('#sub').textContent=new Date().toLocaleDateString('en',{weekday:'long',day:'numeric',month:'long'})}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b&&b.tagName!='SELECT'&&A[b.dataset.a])A[b.dataset.a](b.dataset.k,b)});
+document.addEventListener('change',e=>{if(e.target.dataset.a=='filt')A.filt();if(e.target.dataset.a=='track')A.track()});
+function check(){try{if(Notification.permission!='granted')return;const t=D();openT().filter(x=>x.due<=t||dd(x.due)==1).forEach(x=>{const key=x.id+t;if(S.notified[key])return;S.notified[key]=1;new Notification(x.due<t?'Overdue':x.due==t?'Due today':'Due tomorrow',{body:x.title})});save()}catch(e){}}
+
+const GK='gh_cfg';
+const cfg=()=>{try{return JSON.parse(localStorage.getItem(GK))||{}}catch(e){return{}}};
+let gst='',gtm;
+const sr=()=>{const e=$('#gst');if(e)e.textContent=gst};
+const b64=s=>btoa(unescape(encodeURIComponent(s)));
+const unb64=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+async function gh(path,method,body){const c=cfg();
+ const r=await fetch('https://api.github.com/repos/'+c.u+'/contents/'+path+(method=='GET'?'?ref='+encodeURIComponent(c.b||'main'):''),{method,headers:{Authorization:'Bearer '+c.t,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});
+ if(r.status==404&&method=='GET')return null;if(!r.ok)throw new Error('GitHub '+r.status);return r.json()}
+async function put(name,text){const c=cfg(),path=(c.p||'study-hub')+'/'+name;const cur=await gh(path,'GET');
+ await gh(path,'PUT',{message:'Study hub update: '+name,content:b64(text),branch:c.b||'main',sha:cur?cur.sha:undefined})}
+function mds(){const o=[];for(const k of TR){if(!S.sets[k].length)continue;o.push('## '+tl(k));S.sets[k].forEach(s=>{o.push('### '+s.n);s.t.forEach(x=>o.push('- ['+(x.d?'x':' ')+'] '+x.t))})}return o.join('\n')}
+function mdt(){return S.tasks.slice().sort((a,b)=>a.due.localeCompare(b.due)).map(x=>'- ['+(x.done?'x':' ')+'] '+x.title+' #'+x.type.replace(/\s/g,'-')+' 📅 '+x.due).join('\n')}
+function mdp(){return '| Subject | Q | Year | Difficulty | Revise | Issue |\n|---|---|---|---|---|---|\n'+S.pyq.map(p=>'| '+p.s+' | '+p.q+' | '+p.y+' | '+p.diff+' | '+(p.rev?(p.fix?'done':'yes'):'no')+' | '+(p.i||'').replace(/\|/g,'/').replace(/\n/g,' ')+' |').join('\n')}
+async function push(){const c=cfg();if(!c.t||!c.u){gst='Add repo and token first.';return sr()}
+ try{gst='Pushing...';sr();await put('data.json',JSON.stringify(S,null,1));await put('syllabus.md',mds());await put('tasks.md',mdt());await put('pyq-log.md',mdp());gst='Synced '+new Date().toLocaleTimeString()}catch(e){gst='Failed: '+e.message}sr()}
+async function pull(){try{gst='Pulling...';sr();const c=cfg(),f=await gh((c.p||'study-hub')+'/data.json','GET');
+ if(!f){gst='Nothing in the repo yet.';return sr()}const x=JSON.parse(unb64(f.content));
+ if(x&&(x.sets||x.syl)){S=x;norm();try{localStorage.setItem('gatehub',JSON.stringify(S))}catch(e){}gst='Pulled '+new Date().toLocaleTimeString();R()}}catch(e){gst='Failed: '+e.message;sr()}}
+function ghAuto(){const c=cfg();if(!c.t||!c.u)return;clearTimeout(gtm);gtm=setTimeout(push,5000)}
+V.sync=()=>{const c=cfg();return '<div class="card"><h2>GitHub sync</h2><small>Pushes your data and Obsidian-ready Markdown (syllabus, tasks, PYQ log) to your repo after each change. The token stays in this browser only.</small><div class="f" style="margin-top:8px"><input id="gu" class="w" placeholder="owner/repo" value="'+esc(c.u||'')+'"><input id="gb" placeholder="branch" value="'+esc(c.b||'main')+'"><input id="gp" placeholder="folder" value="'+esc(c.p||'study-hub')+'"><input id="gt" class="w" type="password" placeholder="Fine-grained token" value="'+esc(c.t||'')+'"></div><button class="btn" data-a="ghSave">Save settings</button> <button class="btn g" data-a="ghPush">Push now</button> <button class="btn g" data-a="ghPull">Pull</button><p id="gst" class="mu">'+esc(gst)+'</p></div>'};
+A.ghSave=()=>{localStorage.setItem(GK,JSON.stringify({u:g('gu').trim(),b:g('gb').trim()||'main',p:g('gp').trim()||'study-hub',t:g('gt').trim()}));gst='Settings saved.';sr()};
+A.ghPush=()=>push();A.ghPull=()=>pull();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+R();check();setInterval(check,6e4);
+(async()=>{try{if(!window.claude)return;const u=await claude.use('user'),d=await claude.use('db');if(!u||!d)return;
+ const id=await u.id();if(!id)return;const r=d.collection('data/users/'+id).doc('hub');const s=await r.get();
+ if(s.exists&&s.data().json){const x=JSON.parse(s.data().json);if(x&&(x.syl||x.sets)){S=x;norm();try{localStorage.setItem('gatehub',s.data().json)}catch(e){}R()}}
+ ref=r;save()}catch(e){}})();
+</script></body></html>
