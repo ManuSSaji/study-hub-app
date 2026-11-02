@@ -14,7 +14,9 @@ var SLOTS={
 free:['6:30–9:00 AM','9:30 AM–12:00','1:30–4:00 PM','4:30–5:30 PM','5:30–6:30 PM'],
 college:['5:30–6:30 PM','7:00–8:00 PM','8:00–9:00 PM'],
 sat:['6:30–9:00 AM','9:30 AM–12:00','1:30–4:00 PM'],
-wknd:['9:30–11:00 AM · 90 min','11:15 AM–12:00 PM · 45 min','12:45–1:15 PM · 30 min','1:45–2:45 PM · 60 min','3:20–4:50 PM · 90 min','5:05–6:30 PM · 85 min']
+wknd6:['9:30–11:00 AM · 90 min','11:15 AM–12:00 PM · 45 min','12:45–1:15 PM · 30 min','1:45–2:45 PM · 60 min','3:20–4:50 PM · 90 min','5:05–6:30 PM · 85 min'],
+wk4:['11:00 AM–12:15 PM · 75 min','1:45–2:45 PM · 60 min','3:20–4:50 PM · 90 min','5:05–6:30 PM · 85 min'],
+wknd:['9:30–11:00 AM · 90 min','11:15 AM–12:00 PM · 45 min','1:45–2:45 PM · 60 min','3:20–4:50 PM · 90 min','5:05–6:30 PM · 85 min']
 };
 var D=function(date,kind,blocks){return {date:date,kind:kind,blocks:blocks};};
 var X=function(s,ev){
@@ -29,47 +31,47 @@ D('2026-10-27','college',[['AI','Retest question paper, last run-through','5:00�
 D('2026-10-28','college',[['ECT','Modules 1–2 last revision','5:00–7:00 AM'],['LAB','CAD lab internal exam','Time: check with college',3],['ECT','ECT301 minor series exam, Modules 1–2','Time: check with college',2],['MA','Module 3, first pass','5:15–6:30 PM'],['FM','Module 3, first pass','7:00–7:45 PM'],['MOS','Module 3, first pass','7:45–8:30 PM']]),
 D('2026-10-29','college',[['FM','Module 3, new content','5:00–7:00 AM'],['MOS','Module 3, new content','5:15–6:30 PM'],['MA','Module 3, new content','7:00–7:45 PM'],['MA','Module 3 problems','7:45–8:30 PM']]),
 D('2026-10-30','college',[['FM','Module 4, new content','5:00–7:00 AM'],['MOS','Module 4, new content','5:15–6:30 PM'],['MA','Module 4, new content','7:00–7:45 PM'],['MA','Modules 3–4 problems (weak area)','7:45–8:30 PM']]),
-D('2026-11-01','wknd',[['MA','Module 3, new content'],['FM','Module 3, new content'],['MOS','Module 3, new content'],['MA','Module 4, new content'],['FM','Module 4, new content'],['MOS','Module 4, new content']]),
-D('2026-11-02','free',[['MP','Module 1, new content'],['MP','Module 2, new content'],['MP','Module 3: rolling, forging, drawing, yield criteria'],['MP','Module 4, new content'],['AI','Modules 3–4 notes beyond the retest paper']]),
-D('2026-11-03','free',[['EE','Module 1, new content'],['EE','Module 2, new content'],['EE','Module 3, new content'],['EE','Module 4, new content'],['MA','Modules 3–4 problems (weak area)']]),
-D('2026-11-04','free',[['FM','Modules 3–4 problems'],['MOS','Modules 3–4 problems'],['MA','Modules 3–4 problems, second round'],['MP','Modules 1–4 important questions'],['ALL','Recall FM, MOS and Maths formulas']]),
-D('2026-11-05','free',[['FM','Modules 1–2 revision and numericals'],['MOS','Modules 1–2 revision and numericals'],['MA','Modules 1–2 problems'],['AI','Modules 1–2 revision'],['EE','Modules 1–2 revision']]),
-D('2026-11-06','free',[['LAB','MT lab: experiments, procedure, viva'],['LAB','CAD lab: practice drawings and commands'],['FM','Modules 1–2 PYQs'],['MOS','Modules 1–2 PYQs'],['FM','Recall formulas']]),
-D('2026-11-07','wknd',[['LAB','MT lab: record check and viva list'],['LAB','CAD lab: timed drawing practice'],['MA','Modules 1–2 PYQs'],['AI','Modules 3–4 PYQs'],['LAB','MT and CAD labs: final run-through'],['MA','Weak topics, light']]),
+D('2026-11-01','wknd6',[['MA','Module 3, new content'],['FM','Module 3, new content'],['MOS','Module 3, new content'],['MA','Module 4, new content'],['FM','Module 4, new content'],['MOS','Module 4, new content']]),
+D('2026-11-02','free',[['FM','Module 3, new content','5:45–7:15 AM'],['MA','Maths offline class (counts as the Module 4 session)','9:00 AM–3:50 PM · leave 7:30 AM, home by 6:00 PM',5],['MOS','Module 4, new content','7:00–8:30 PM']]),
+D('2026-11-03','free',[['FM','Fluid Mechanics offline class (counts as the Module 4 session)','Time: confirm the class time',5],['FM','Modules 3–4 problems','Around the class'],['MA','Modules 3–4 problems (weak area)','Around the class']]),
+D('2026-11-04','free',[['MP','Module 1, new content'],['MP','Module 2, new content'],['MP','Module 3: rolling, forging, drawing, yield criteria'],['MP','Module 4, new content'],['AI','Modules 3–4 notes beyond the retest paper']]),
+D('2026-11-05','free',[['EE','Modules 1–2, new content'],['EE','Modules 3–4, new content'],['FM','Modules 3–4 problems'],['MOS','Modules 3–4 problems'],['MA','Modules 3–4 problems, second round']]),
+D('2026-11-06','free',[['LAB','MT lab: experiments, procedure, viva'],['LAB','CAD lab: practice drawings and commands'],['FM','Modules 1–2 revision, numericals and PYQs'],['MOS','Modules 1–2 revision, numericals and PYQs'],['MP','Modules 1–4 important questions']]),
+D('2026-11-07','wknd',[['LAB','MT lab: record check and viva list'],['LAB','CAD lab: timed drawing practice'],['MA','Modules 1–2 problems and PYQs'],['AI','Modules 3–4 PYQs'],['LAB','MT and CAD labs: final run-through']]),
 D('2026-11-08','lab',[['LAB','Quick revision for the lab exam today','9:30–11:00 AM'],['LAB','External lab exam: MT or CAD, confirm which','Time: check hall ticket and college',3],['FM','Modules 3–4 numericals','After the lab exam, until 6:30 PM']]),
 D('2026-11-09','lab',[['LAB','Quick revision for the second lab exam','6:30–8:30 AM'],['LAB','External lab exam: MT or CAD, confirm which','Time: check hall ticket and college',3],['MOS','Modules 3–4 numericals','After the lab exam, until 6:30 PM']]),
 D('2026-11-10','free',[['MA','Module 3 PYQs'],['MA','Module 4 PYQs'],['FM','Modules 1–2 PYQs'],['AI','Modules 1–2 problems'],['MA','Recall']]),
 D('2026-11-11','free',[['FM','Module 3 PYQs'],['FM','Module 4 PYQs'],['MOS','Module 3 PYQs'],['MOS','Module 4 PYQs'],['FM','Recall']]),
 D('2026-11-12','free',[['MA','Full PYQ paper, timed'],['MOS','Full PYQ paper, timed'],['FM','Full PYQ paper, timed'],['ALL','Mark the papers. List every mistake'],['ALL','Redo the three worst mistakes']]),
 D('2026-11-13','free',[['AI','Full PYQ paper, timed'],['MP','Full PYQ paper, timed'],['EE','PYQs, Modules 1–4'],['MP','Write the important answers'],['ALL','Recall the mistakes from all papers']]),
-D('2026-11-14','wknd',[['FM','Weak topics'],['MA','Weak topics'],['MOS','Weak topics'],['AI','Weak topics'],['FM','Modules 3–4 mixed numericals'],['ALL','Recall the mistakes list']]),
-D('2026-11-15','wknd',[['MA','Timed half paper 2'],['MOS','Timed half paper 2'],['FM','Timed half paper 2'],['AI','Timed half paper 2'],['ALL','Mark the four papers. List mistakes'],['ALL','Redo the three worst mistakes']]),
+D('2026-11-14','wknd',[['FM','Weak topics'],['MA','Weak topics'],['MOS','Weak topics'],['AI','Weak topics'],['FM','Modules 3–4 mixed numericals']]),
+D('2026-11-15','wknd',[['MA','Timed half paper 2'],['MOS','Timed half paper 2'],['FM','Timed half paper 2'],['AI','Timed half paper 2'],['ALL','Mark the four papers, list mistakes and redo the three worst']]),
 D('2026-11-16','free',[['FM','Fix weak topics from the mock'],['MOS','Fix weak topics from the mock'],['MA','Fix weak topics from the mock'],['AI','Fix weak topics from the mock'],['ALL','Recall the mock mistakes']]),
 D('2026-11-17','free',[['MP','Full revision. Write the important answers'],['EE','Revision and PYQs'],['AI','Revise notes and definitions'],['FM','One-page formula sheet'],['MP','Recall']]),
 D('2026-11-18','free',[['MA','Formula sheet and 30 problems'],['MA','Remaining PYQ years'],['MOS','Formula sheet and problems'],['FM','Mixed-module problems'],['MA','Recall']]),
 D('2026-11-19','free',[['MA','Timed paper 3'],['MA','Fix every mistake'],['MOS','Timed paper 3'],['FM','Timed paper 3'],['ALL','Recall']]),
 D('2026-11-20','free',[['MOS','Final pass, summary of Modules 1–4'],['FM','Final pass, summary of Modules 1–4'],['AI','Final pass'],['MA','Error list'],['MOS','Recall']]),
-D('2026-11-21','wknd',[['MA','Error list and formula sheet'],['MOS','Formula sheet'],['FM','Formula recall'],['MA','20 mixed problems'],['MA','Remaining PYQ years'],['MA','Recall the formula sheet']]),
-D('2026-11-22','wknd',[['MA','Full revision, Modules 1–4'],['MA','Last timed half paper'],['MOS','Quick revision'],['FM','Quick skim'],['MA','Final error list'],['MA','Recall the formula sheet']]),
+D('2026-11-21','wknd',[['MA','Error list and formula sheet'],['MOS','Formula sheet'],['FM','Formula recall'],['MA','20 mixed problems'],['MA','Remaining PYQ years']]),
+D('2026-11-22','wknd',[['MA','Full revision, Modules 1–4'],['MA','Last timed half paper'],['MOS','Quick revision'],['FM','Quick skim'],['MA','Final error list and formula sheet recall']]),
 D('2026-11-23','exam',[['MA','Formulas and weak topics','6:30–9:00 AM'],['MOS','Light revision','9:30 AM–12:00'],['ALL','Rest. Pack hall ticket and pens. Sleep by 9:30 PM','Rest of the day']]),
 D('2026-11-24','exam',X('MA',['MOS','Modules 1–2 quick numericals'])),
 D('2026-11-25','free',[['MOS','Modules 1–2 numericals'],['MOS','Modules 3–4 numericals'],['MOS','Timed paper'],['MOS','Formula sheet'],['MOS','Light recall. Sleep early']]),
 D('2026-11-26','exam',X('MOS',['FM','Modules 1–2 revision'])),
 D('2026-11-27','free',[['FM','Modules 1–2 numericals'],['FM','Module 3 numericals'],['FM','Module 4 numericals'],['FM','PYQs'],['FM','Recall formulas']]),
-D('2026-11-28','wknd',[['FM','Timed half paper'],['FM','Fix mistakes and weak topics'],['FM','Modules 3–4 numericals'],['FM','Derivations'],['FM','Mixed numericals'],['FM','Recall']]),
-D('2026-11-29','wknd',[['FM','Final derivations and formulas'],['FM','Mixed numericals'],['FM','Timed half paper 2'],['FM','Light skim'],['FM','Weak topics, last pass'],['FM','Recall. Sleep early']]),
+D('2026-11-28','wknd',[['FM','Timed half paper'],['FM','Fix mistakes and weak topics'],['FM','Modules 3–4 numericals'],['FM','Derivations'],['FM','Mixed numericals']]),
+D('2026-11-29','wknd',[['FM','Final derivations and formulas'],['FM','Mixed numericals'],['FM','Timed half paper 2'],['FM','Light skim'],['FM','Weak topics, last pass. Recall. Sleep early']]),
 D('2026-11-30','exam',X('FM',['MP','Modules 1–2 important questions'])),
 D('2026-12-01','free',[['MP','Modules 1–2 important questions'],['MP','Modules 3–4: rolling, forging, drawing, yield criteria'],['MP','PYQs'],['MP','Diagrams and sketches'],['MP','Recall']]),
 D('2026-12-02','exam',X('MP',['AI','Modules 1–2 revision'])),
 D('2026-12-03','free',[['AI','Modules 1–2'],['AI','Modules 3–4'],['AI','PYQs'],['AI','Short notes and definitions'],['AI','Recall']]),
 D('2026-12-04','free',[['AI','Timed PYQ paper'],['AI','Weak topics'],['AI','Concepts and definitions'],['AI','Light revision'],['AI','Recall. Sleep early']]),
 D('2026-12-05','exam',[['AI','Formula glance only. No new problems.','9:30–11:00 AM'],['AI','Exam: AI & DS','1:30–4:00 PM',1],['EE','Modules 1–2 revision','4:30–6:30 PM']]),
-D('2026-12-06','wknd',[['EE','Modules 1–2'],['EE','Modules 3–4'],['EE','PYQs'],['EE','Short notes'],['EE','PYQs, timed'],['EE','Recall']]),
+D('2026-12-06','wknd',[['EE','Modules 1–2'],['EE','Modules 3–4'],['EE','PYQs'],['EE','Short notes'],['EE','PYQs, timed, then recall']]),
 D('2026-12-07','free',[['EE','Timed PYQ paper'],['EE','Weak topics'],['EE','Revision'],['EE','Light revision'],['EE','Recall. Sleep early']]),
 D('2026-12-08','exam',X('EE',null))
 ];
 var PHASES=[
-{n:1,t:'Finish the portions',to:'2026-11-03',note:'Internals first: MT lab on 26 Oct, AI retest on 27 Oct, CAD lab and the ECT301 series exam on 28 Oct. College runs through Fri 30 Oct (last class), so 29 and 30 Oct are college days too: study 5:00–7:00 AM, 5:15–6:30 PM and 7:00–8:30 PM on every college day. From Sat 31 Oct there are no more classes and nothing is scheduled after 6:30 PM. After that, Module 3 and 4 content you have not covered, S-target subjects first. Saturdays and Sundays: karate 7–9 AM, then sprints from 9:30 AM that end by 6:30 PM, working around your sister’s dance class (drop-off 1:20, pick-up 2:50). Because 29 to 31 Oct were missed, the content moved: Maths, FM and MOS Modules 3–4 on Sun 1 Nov, MP and AI on Mon 2 Nov, Ethics/EE on Tue 3 Nov. Modules 1–2 get problems and revision in the next phase.'},
+{n:1,t:'Finish the portions',to:'2026-11-05',note:'Internals first: MT lab on 26 Oct, AI retest on 27 Oct, CAD lab and the ECT301 series exam on 28 Oct. College runs through Fri 30 Oct (last class), so 29 and 30 Oct are college days too: study 5:00–7:00 AM, 5:15–6:30 PM and 7:00–8:30 PM on every college day. From Sat 31 Oct there are no more classes and nothing is scheduled after 6:30 PM. After that, Module 3 and 4 content you have not covered, S-target subjects first. Saturdays and Sundays: karate 7–9 AM, then sprints from 9:30 AM that end by 6:30 PM, working around your sister’s dance class (drop-off 1:20, pick-up 2:50). Because 29 to 31 Oct were missed, the content moved: Maths Module 3, MOS Module 3 and Maths Module 4 (part) on Sun 1 Nov, FM Module 3 and MOS Module 4 on Mon 2 Nov, and FM Module 4 in the Tue 3 Nov class (Maths class on Mon, FM class on Tue), MP and AI on Wed 4 Nov, Ethics/EE on Thu 5 Nov. Weekends: karate 7–9 AM, rest until 9:30, lunch 12:00–1:20, 5 blocks. Modules 1–2 get problems and revision in the next phase.'},
 {n:2,t:'Second pass and papers',to:'2026-11-23',note:'Problems and revision for Modules 1–2, then PYQs, then timed papers. A friend says the external MT and CAD lab exams are on 8 and 9 Nov. Confirm the dates and which lab is on which day with college. If they change, tell me and I will move the lab days.'},
 {n:3,t:'Exam window',to:'2026-12-08',note:'One subject at a time. Exams run 1:30–4:00 PM, so the morning of each exam is a formula glance only. The evening of an exam day starts the next subject.'}
 ];
@@ -88,11 +90,13 @@ function slotTime(day,i,b){var k=(b.oi!==undefined?b.oi:i);return b[2]||SLOTS[da
 /* weekend sister runs: drop 1:20–1:40 PM, pick-up 2:50–3:10 PM; task ids stay tied to the original block order */
 PLAN.forEach(function(day){
 day.blocks.forEach(function(b,i){b.oi=i;});
-if(day.kind!=='wknd')return;
+if(day.kind!=='wknd'&&day.kind!=='wk4'&&day.kind!=='wknd6')return;
+if(day.blocks.some(function(b){return b[3]===4;}))return;
+var dk=day.kind==='wk4'?1:(day.kind==='wknd6'?3:2),pk=day.kind==='wk4'?2:(day.kind==='wknd6'?4:3);
 var out=[];
 day.blocks.forEach(function(b,k){
-if(k===3)out.push(['ALL','Drop sister at dance class','1:20–1:40 PM',4]);
-if(k===4)out.push(['ALL','Pick sister up from dance class','2:50–3:10 PM',4]);
+if(k===dk)out.push(['ALL','Drop sister at dance class','1:20–1:40 PM',4]);
+if(k===pk)out.push(['ALL','Pick sister up from dance class','2:50–3:10 PM',4]);
 out.push(b);
 });
 day.blocks=out;
@@ -107,8 +111,8 @@ allTasks.push({id:day.date+'.'+i,sj:b[0],date:day.date});
 function taskRow(day,b,i){
 var id=day.date+'.'+(b.oi!==undefined?b.oi:i), time=slotTime(day,i,b);
 if(b[3]){
-var st=b[3]===3?'LAB EXAM':(b[3]===2?'TEST':(b[3]===4?'SISTER':'EXAM'));
-return '<li class="examrow"><span class="stamp'+(b[3]===4?' trip':'')+'">'+st+'</span><span class="txt"><span class="meta"><span class="time">'+time+'</span><span class="sj sj-'+b[0]+'">'+CHIP[b[0]]+'</span></span><span class="what">'+b[1]+'</span></span></li>';
+var st=b[3]===3?'LAB EXAM':(b[3]===2?'TEST':(b[3]===4?'SISTER':(b[3]===5?'CLASS':'EXAM')));
+return '<li class="examrow"><span class="stamp'+(b[3]===4||b[3]===5?' trip':'')+'">'+st+'</span><span class="txt"><span class="meta"><span class="time">'+time+'</span><span class="sj sj-'+b[0]+'">'+CHIP[b[0]]+'</span></span><span class="what">'+b[1]+'</span></span></li>';
 }
 return '<li><label class="row"><input type="checkbox" data-id="'+id+'" data-a="s3tick" data-k="'+id+'"'+(dn()[id]?' checked':'')+'><span class="txt"><span class="meta"><span class="time">'+time+'</span><span class="sj sj-'+b[0]+'">'+CHIP[b[0]]+'</span></span><span class="what">'+b[1]+'</span></span></label></li>';
 }
@@ -117,7 +121,9 @@ if(day.date==='2026-10-30')return 'Last class day';
 if(day.kind==='college')return 'College day';
 if(day.kind==='sat')return 'Light day';
 if(day.date==='2026-10-25')return 'Karate 7–9 AM · Sister’s class 1:30–3 PM · AI, minor, labs only';
-if(day.kind==='wknd')return 'Karate 7–9 AM · Lunch 12:00–12:45 · Sister’s class 1:30–3 PM';
+if(day.kind==='wknd6')return 'Karate 7–9 AM · Lunch 12:00–12:45 · Sister’s class 1:30–3 PM';
+if(day.kind==='wk4')return 'Karate 7–9 AM · Rest till 11 · Lunch 12:15–1:15 · Sister’s class 1:30–3 PM · 4 blocks';
+if(day.kind==='wknd')return 'Karate 7–9 AM · Lunch 12:00–1:20 · Sister’s class 1:30–3 PM';
 if(day.kind==='lab')return 'Lab exam day';
 if(day.blocks.some(function(b){return b[3];}))return 'Exam day';
 if(day.date==='2026-11-23')return 'Day before Maths';
