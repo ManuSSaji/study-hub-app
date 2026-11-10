@@ -1,0 +1,444 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>S3 End-Sem Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting-sheet look. Title block on top, countdown, exam list, then the day-by-day plan in collapsible phases. */
+:root{
+  --paper:#EDF1F4;--card:#F8FAFB;--ink:#142230;--ink2:#4A5B6B;--rule:#C5D0DA;--grid:rgba(20,34,48,.06);
+  --accent:#1B5E9B;--on-accent:#F8FAFB;--exam:#C42B2B;
+  --c-MA:#6B4FC4;--c-MOS:#9A5B00;--c-FM:#0B7A6F;--c-MP:#8C5A3C;--c-AI:#B83A7A;--c-EE:#4C7A34;--c-ECT:#6F7F1E;--c-ALL:#4A5B6B;--c-LAB:#4A5B6B;
+  --f-display:'Barlow Condensed','Arial Narrow',sans-serif;
+  --f-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1620;--card:#152030;--ink:#E7EEF4;--ink2:#9DB0C1;--rule:#2A3A4B;--grid:rgba(231,238,244,.05);
+    --accent:#6DB0EE;--on-accent:#0E1620;--exam:#FF7A70;
+    --c-MA:#A892F2;--c-MOS:#E5A64A;--c-FM:#4FC9BA;--c-MP:#D1A07E;--c-AI:#E884B5;--c-EE:#93C874;--c-ECT:#B7C85A;--c-ALL:#9DB0C1;--c-LAB:#9DB0C1;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1620;--card:#152030;--ink:#E7EEF4;--ink2:#9DB0C1;--rule:#2A3A4B;--grid:rgba(231,238,244,.05);
+  --accent:#6DB0EE;--on-accent:#0E1620;--exam:#FF7A70;
+  --c-MA:#A892F2;--c-MOS:#E5A64A;--c-FM:#4FC9BA;--c-MP:#D1A07E;--c-AI:#E884B5;--c-EE:#93C874;--c-ECT:#B7C85A;--c-ALL:#9DB0C1;--c-LAB:#9DB0C1;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  color:var(--ink);font:400 15px/1.45 var(--f-body);
+  padding-block:16px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.wrap{max-width:640px;margin:0 auto}
+.lab{font:500 11px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+h1,h2,h3{font-family:var(--f-display);text-transform:uppercase;text-wrap:balance;margin:0}
+ul{list-style:none;margin:0;padding:0}
+
+/* title block */
+.tb{border:2px solid var(--ink);background:var(--card)}
+.tb-top{padding:12px 14px 14px;border-bottom:1px solid var(--ink)}
+h1{font-weight:700;font-size:46px;line-height:1;letter-spacing:.01em;margin-top:6px}
+.tb-cells{display:grid;grid-template-columns:repeat(3,1fr)}
+.tb-cells div{padding:8px 14px 10px;min-width:0}
+.tb-cells div+div{border-left:1px solid var(--ink)}
+.tb-cells b{display:block;font:500 14px/1.3 var(--f-mono);margin-top:2px;white-space:nowrap}
+
+/* countdown */
+.next{display:flex;gap:16px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;padding:22px 0 6px}
+.next .big{font:700 96px/.85 var(--f-display);font-variant-numeric:tabular-nums;color:var(--ink)}
+.next .what{font:600 20px/1.2 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.next .sub{font:400 13px/1.4 var(--f-mono);color:var(--ink2);margin-top:4px}
+.overall{min-width:150px;flex:1 1 150px;max-width:260px}
+.overall .num{font:500 13px/1.3 var(--f-mono);font-variant-numeric:tabular-nums;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+.bar{height:6px;background:var(--rule);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+
+section{margin-top:30px}
+h2{font-weight:700;font-size:28px;line-height:1.05;letter-spacing:.02em}
+.hint{color:var(--ink2);font-size:13px;margin:6px 0 0;max-width:60ch}
+
+/* exam list */
+.exams{margin-top:12px;border:1px solid var(--rule);background:var(--card)}
+.ex{padding:12px 14px;border-top:1px solid var(--rule)}
+.ex:first-child{border-top:0}
+.ex-row{display:grid;grid-template-columns:62px 1fr auto;gap:12px;align-items:center}
+.ex-date{font:500 12px/1.2 var(--f-mono);text-transform:uppercase;color:var(--exam);text-align:left}
+.ex-date b{display:block;font:700 28px/1 var(--f-display);color:var(--ink);letter-spacing:.01em}
+.ex-name{min-width:0}
+.ex-name strong{display:block;font-weight:600;font-size:15px}
+.ex-name span{font:400 12px/1.3 var(--f-mono);color:var(--ink2)}
+.ex-right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.ex-left{font:500 12px/1 var(--f-mono);color:var(--ink2);white-space:nowrap}
+.pill{font:600 12px/1 var(--f-mono);padding:4px 7px;border:1.5px solid var(--accent);color:var(--accent)}
+.pill.s{background:var(--accent);color:var(--on-accent)}
+.ex .bar{margin-top:10px}
+.ex-prog{display:flex;justify-content:space-between;font:400 11px/1 var(--f-mono);color:var(--ink2);margin-top:6px;font-variant-numeric:tabular-nums}
+
+/* plan */
+details.phase{margin-top:12px;border:1px solid var(--ink);background:var(--card)}
+details.phase>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;gap:10px;align-items:baseline;justify-content:space-between;flex-wrap:wrap;min-height:48px}
+details.phase>summary::-webkit-details-marker{display:none}
+details.phase>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ph-t{font:700 22px/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.ph-m{font:400 12px/1.3 var(--f-mono);color:var(--ink2);font-variant-numeric:tabular-nums}
+.ph-body{padding:0 12px 14px}
+.ph-note{color:var(--ink2);font-size:13px;margin:0 2px 4px;max-width:60ch}
+.day{background:var(--paper);border:1px solid var(--rule);padding:10px 14px 4px;margin-top:10px}
+.day.today{border:2px solid var(--accent)}
+.day-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;padding-bottom:6px;border-bottom:1px solid var(--rule)}
+.day-h h3{font-weight:700;font-size:22px;letter-spacing:.02em}
+.day-h .tag{font:500 11px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.day-h .tag.now{color:var(--accent)}
+.row{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--rule);min-height:48px;cursor:pointer}
+li:last-child>.row,li:last-child.examrow{border-bottom:0}
+.row input{appearance:none;-webkit-appearance:none;flex:none;width:24px;height:24px;margin:1px 0 0;border:2px solid var(--ink2);background:var(--card);display:grid;place-content:center;cursor:pointer;border-radius:0}
+.row input:checked{background:var(--accent);border-color:var(--accent)}
+.row input:checked::after{content:"";width:6px;height:11px;border:solid var(--on-accent);border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.row input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.txt{min-width:0;display:block}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.time{font:400 12px/1.2 var(--f-mono);color:var(--ink2);font-variant-numeric:tabular-nums}
+.sj{font:600 11px/1 var(--f-mono);letter-spacing:.05em;padding:3px 5px;border:1px solid currentColor;color:var(--c-ALL)}
+.sj-MA{color:var(--c-MA)}.sj-MOS{color:var(--c-MOS)}.sj-FM{color:var(--c-FM)}.sj-MP{color:var(--c-MP)}.sj-AI{color:var(--c-AI)}.sj-EE{color:var(--c-EE)}.sj-LAB{color:var(--c-LAB)}.sj-ECT{color:var(--c-ECT)}
+.what{display:block;margin-top:3px}
+.row input:checked+.txt .what{color:var(--ink2);text-decoration:line-through;text-decoration-thickness:1px}
+.examrow{display:flex;gap:12px;align-items:center;padding:10px 0;min-height:48px;border-bottom:1px solid var(--rule)}
+.stamp{font:600 11px/1 var(--f-mono);letter-spacing:.1em;color:var(--exam);border:1.5px solid var(--exam);padding:4px 7px;flex:none}
+.empty{padding:20px 14px;border:1px dashed var(--rule);background:var(--card);margin-top:12px}
+.events{margin-top:12px;border:1px solid var(--rule);background:var(--card)}
+.events li{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px;border-top:1px solid var(--rule);min-height:44px}
+.events li:first-child{border-top:0}
+.ev-d{font:500 12px/1.2 var(--f-mono);min-width:86px;color:var(--ink2)}
+.ev-t{flex:1 1 140px;min-width:0}
+footer{margin-top:34px;font:400 12px/1.5 var(--f-mono);color:var(--ink2)}
+@media (max-width:420px){
+  h1{font-size:40px}
+  .next .big{font-size:84px}
+  .ex-row{grid-template-columns:54px 1fr auto;gap:10px}
+}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+
+<div class="wrap">
+  <header class="tb">
+    <div class="tb-top">
+      <span class="lab">B.Tech Mech · S3 (R,S) · KTU 2024 scheme</span>
+      <h1>End-Sem Plan</h1>
+    </div>
+    <div class="tb-cells">
+      <div><span class="lab">Plan starts</span><b>25 Oct</b></div>
+      <div><span class="lab">Last exam</span><b>8 Dec</b></div>
+      <div><span class="lab">Today</span><b id="todayLbl">-</b></div>
+    </div>
+  </header>
+
+  <div class="next" id="next"></div>
+
+  <section id="eventsSec"></section>
+
+  <section id="todaySec"></section>
+
+  <section>
+    <h2>Exams and targets</h2>
+    <p class="hint">Target grade: S in Maths, Mechanics of Solids, Fluid Mechanics and AI &amp; DS. A+ in Ethics/EE. A+ or A in Manufacturing Processes. Exams run 1:30–4:00 PM. Internal marks (Campus7, 10 Nov) are shown under each subject.</p>
+    <ul class="exams" id="exams"></ul>
+  </section>
+
+  <section>
+    <h2>Syllabus deadlines</h2>
+    <p class="hint">Open modules as of 10 Nov, from your sheet. If a lab or an off day costs you time, 18 Nov is the fallback for everything.</p>
+    <ul class="exams">
+      <li class="ex"><div class="ex-name"><strong>By Mon 16 Nov</strong><span>Maths 2, 4 · MOS 3, 4 · FM 2, 4 · AI 2, 3, 4</span></div></li>
+      <li class="ex"><div class="ex-name"><strong>By Wed 18 Nov</strong><span>MP 1–4 · EEDS 1–4. MP goes first (14–16 Nov). EEDS is the buffer on 17–18 Nov.</span></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Day by day</h2>
+    <div id="plan"></div>
+  </section>
+
+  <footer id="syncNote">Ticks are saved on this phone.</footer>
+</div>
+
+<script>
+(function(){
+  var SJ={MA:'Maths',MOS:'Mechanics of Solids',FM:'Fluid Mechanics',MP:'Manufacturing Processes',AI:'AI & DS',EE:'Ethics / EE',ECT:'ECT301 (Minor)',LAB:'Labs'};
+  var CHIP={MA:'MATHS',MOS:'MOS',FM:'FM',MP:'MP',AI:'AI',EE:'ETH/EE',ECT:'ECT301',ALL:'ALL',LAB:'LAB'};
+  var EXAMS=[
+    ['2026-11-24','MA','GYMAT301','S','36.75 / 40'],
+    ['2026-11-26','MOS','PCMET302','S','37.5 / 40'],
+    ['2026-11-30','FM','PCMET303','S','33 / 40'],
+    ['2026-12-02','MP','PBMET304','A+ / A','43.97 / 60'],
+    ['2026-12-05','AI','GNEST305','S','34.5 / 40'],
+    ['2026-12-08','EE','UCHUT346/347','A+','55 / 60']
+  ];
+  var SLOTS={
+    free:['6:30–9:00 AM','9:30 AM–12:00','1:30–4:00 PM','4:30–5:30 PM','8:00–9:00 PM'],
+    college:['5:30–6:30 PM','7:00–8:00 PM','8:00–9:00 PM'],
+    sat:['6:30–9:00 AM','9:30 AM–12:00','1:30–4:00 PM'],
+    wknd:['9:30–11:00 AM · 90 min','11:15 AM–12:25 PM · 70 min','12:45–2:15 PM · 90 min','2:30–3:40 PM · 70 min','4:00–5:30 PM · 90 min','5:50–6:30 PM · 40 min']
+  };
+  var D=function(date,kind,blocks){return {date:date,kind:kind,blocks:blocks};};
+  var X=function(s,ev){
+    var b=[[s,'Formula glance only. No new problems.','6:30–9:00 AM'],[s,'Exam: '+SJ[s],'1:30–4:00 PM',1]];
+    if(ev)b.push([ev[0],ev[1],'6:00–8:30 PM']);
+    return b;
+  };
+  var PLAN=[
+    D('2026-10-25','wknd',[['AI','Retest question paper, part 1'],['AI','Retest question paper, part 2'],['LAB','MT lab: experiments, record and viva questions'],['ECT','Module 1: concepts and PYQs'],['ECT','Module 2: concepts and PYQs'],['LAB','CAD lab: commands and drawings, light']]),
+    D('2026-10-26','college',[['LAB','MT lab: quick viva run-through','6:30–8:00 AM'],['LAB','MT lab internal exam','Time: check with college',3],['AI','Retest question paper, final pass','5:30–6:30 PM'],['ECT','Modules 1–2 PYQs','7:00–8:00 PM'],['LAB','CAD lab: practice drawings and commands','8:00–9:00 PM']]),
+    D('2026-10-27','college',[['AI','Retest question paper, last run-through','6:30–8:30 AM'],['AI','AI retest (second series)','Time: check with college',2],['ECT','Modules 1–2 revision','5:30–6:30 PM'],['LAB','CAD lab: commands and drawings','7:00–8:00 PM'],['LAB','CAD lab: record and viva questions','8:00–9:00 PM']]),
+    D('2026-10-28','college',[['ECT','Modules 1–2 last revision','6:30–8:00 AM'],['LAB','CAD lab internal exam','Time: check with college',3],['ECT','ECT301 minor series exam, Modules 1–2','Time: check with college',2],['MA','Module 3, first pass','5:30–6:30 PM'],['FM','Module 3, first pass','7:00–8:00 PM'],['MOS','Module 3, first pass','8:00–9:00 PM']]),
+    D('2026-10-29','free',[['FM','Module 3, new content'],['MOS','Module 3, new content'],['MA','Module 3, new content'],['MA','Module 3 problems'],['FM','Recall FM and MOS Module 3 formulas']]),
+    D('2026-10-30','free',[['FM','Module 4, new content'],['MOS','Module 4, new content'],['MA','Module 4, new content'],['MA','Modules 3–4 problems (weak area)'],['FM','Recall FM and MOS Module 4 formulas']]),
+    D('2026-10-31','wknd',[['MP','Module 1, new content'],['MP','Module 2, new content'],['MP','Modules 1–2 important questions'],['AI','Modules 3–4 notes beyond the retest paper'],['MP','Module 3: rolling, forging, drawing, yield criteria'],['MP','Module 3 important questions']]),
+    D('2026-11-01','wknd',[['MP','Module 4, new content'],['EE','Module 1, new content'],['MA','Modules 3–4 problems (weak area)'],['FM','Modules 3–4 problems'],['EE','Module 2, new content'],['MOS','Modules 3–4 problems']]),
+    D('2026-11-02','free',[['EE','Module 3, new content'],['EE','Module 4, new content'],['MA','Modules 3–4 problems, second round'],['FM','Modules 3–4 problems, second round'],['MOS','Modules 3–4 problems, second round']]),
+
+    D('2026-11-03','free',[['FM','Modules 1–2 revision and numericals'],['MOS','Modules 1–2 revision and numericals'],['MA','Modules 1–2 problems'],['AI','Modules 1–2 revision'],['FM','Recall formulas']]),
+    D('2026-11-04','free',[['FM','Module 3 numericals'],['MOS','Module 3 numericals'],['MA','Module 3 problems'],['EE','Modules 1–2 revision'],['MOS','Recall']]),
+    D('2026-11-05','free',[['FM','Module 4 numericals'],['MOS','Module 4 numericals'],['MA','Module 4 problems'],['MP','Modules 1–2 revision'],['MA','Recall']]),
+    D('2026-11-06','free',[['LAB','MT lab: experiments, procedure, viva'],['LAB','CAD lab: practice drawings and commands'],['FM','Modules 1–2 PYQs'],['MOS','Modules 1–2 PYQs'],['FM','Recall formulas']]),
+    D('2026-11-07','wknd',[['LAB','MT lab: record check and viva list'],['LAB','CAD lab: timed drawing practice'],['MA','Modules 1–2 PYQs'],['AI','Modules 3–4 PYQs'],['LAB','MT and CAD labs: final run-through'],['MA','Weak topics, light']]),
+    D('2026-11-08','wknd',[['LAB','MT lab: experiments, procedure and viva, round 1'],['LAB','MT lab: record check and viva list'],['FM','Modules 3–4 numericals'],['MOS','Modules 3–4 numericals'],['MA','Module 3 problems'],['LAB','CAD lab: commands and timed drawing']]),
+    D('2026-11-09','free',[['LAB','MT lab: every experiment, procedure and formulas'],['LAB','MT lab: viva questions, written out'],['LAB','CAD lab: commands and drawings, timed'],['MA','Module 4 problems'],['FM','Recall formulas']]),
+    D('2026-11-10','free',[['LAB','MT lab: mock viva, out loud'],['LAB','CAD lab: timed drawing 2'],['MA','Module 3 PYQs'],['FM','Modules 1–2 PYQs'],['MOS','Modules 1–2 PYQs']]),
+    D('2026-11-11','free',[['LAB','MT lab: weak experiments, last pass'],['LAB','MT lab: viva run-through, then stop'],['MA','Module 4, new content'],['MA','Module 2, new content'],['ALL','Pack record, hall ticket, ID card and uniform. Sleep early']]),
+    D('2026-11-12','lab',[['LAB','Quick viva revision before the exam','6:30–8:30 AM'],['LAB','External lab exam: MT lab. Report 11:15 AM in uniform with ID card','11:30 AM–2:30 PM',3],['MOS','Module 3, new content','3:30–5:30 PM'],['LAB','CAD lab: commands and drawings, light','6:30–8:30 PM']]),
+    D('2026-11-13','free',[['MOS','Module 4, new content'],['FM','Module 2, new content'],['FM','Module 4, new content'],['AI','Module 2, new content'],['MA','Modules 2 and 4 problems','8:30–9:30 PM']]),
+    D('2026-11-14','wknd',[['AI','Module 3, new content'],['AI','Module 4, new content'],['MA','Modules 2 and 4 problems'],['FM','Modules 2 and 4 problems'],['MP','Module 1, new content'],['ALL','Recall the formulas from this week']]),
+    D('2026-11-15','wknd',[['MOS','Modules 3–4 problems'],['AI','Modules 2–4 recall and short notes'],['MA','Modules 2 and 4, second round of problems'],['FM','Modules 2 and 4 numericals'],['MP','Module 2, new content'],['ALL','Tick off Maths, MOS, FM, AI modules. Note anything left for tomorrow']]),
+    D('2026-11-16','lab',[['LAB','CAD lab: quick commands and drawings revision','6:30–9:00 AM'],['ALL','Catch-up on any open Maths, MOS, FM or AI module','9:30–10:45 AM'],['LAB','External lab exam: CAD lab. Report 11:15 AM in uniform with ID card','11:30 AM–2:00 PM',3],['MP','Module 3, new content','3:00–5:00 PM'],['MP','Module 4, new content','7:00–9:00 PM']]),
+    D('2026-11-17','free',[['EE','Module 1, new content'],['EE','Module 2, new content'],['MP','Modules 1–4 important questions and PYQs'],['EE','Module 3, new content'],['MP','Write the important answers','8:30–9:30 PM']]),
+    D('2026-11-18','free',[['EE','Module 4, new content'],['EE','Modules 1–4 PYQs and short notes'],['MP','Full PYQ paper, timed'],['MA','Formula sheet and 30 problems'],['FM','One-page formula sheet','8:30–9:30 PM']]),
+    D('2026-11-19','free',[['MA','Timed paper 3'],['MA','Fix every mistake'],['MOS','Timed paper 3'],['FM','Timed paper 3'],['ALL','Recall']]),
+    D('2026-11-20','free',[['MOS','Final pass, summary of Modules 1–4'],['FM','Final pass, summary of Modules 1–4'],['AI','Final pass'],['MA','Error list'],['MOS','Recall']]),
+    D('2026-11-21','wknd',[['MA','Error list and formula sheet'],['MOS','Formula sheet'],['FM','Formula recall'],['MA','20 mixed problems'],['MA','Remaining PYQ years'],['MA','Recall the formula sheet']]),
+    D('2026-11-22','wknd',[['MA','Full revision, Modules 1–4'],['MA','Last timed half paper'],['MOS','Quick revision'],['FM','Quick skim'],['MA','Final error list'],['MA','Recall the formula sheet']]),
+    D('2026-11-23','exam',[['MA','Formulas and weak topics','6:30–9:00 AM'],['MOS','Light revision','9:30 AM–12:00'],['ALL','Rest. Pack hall ticket and pens. Sleep by 9:30 PM','Rest of the day']]),
+
+    D('2026-11-24','exam',X('MA',['MOS','Modules 1–2 quick numericals'])),
+    D('2026-11-25','free',[['MOS','Modules 1–2 numericals'],['MOS','Modules 3–4 numericals'],['MOS','Timed paper'],['MOS','Formula sheet'],['MOS','Light recall. Sleep early']]),
+    D('2026-11-26','exam',X('MOS',['FM','Modules 1–2 revision'])),
+    D('2026-11-27','free',[['FM','Modules 1–2 numericals'],['FM','Module 3 numericals'],['FM','Module 4 numericals'],['FM','PYQs'],['FM','Recall formulas']]),
+    D('2026-11-28','wknd',[['FM','Timed half paper'],['FM','Fix mistakes and weak topics'],['FM','Modules 3–4 numericals'],['FM','Derivations'],['FM','Mixed numericals'],['FM','Recall']]),
+    D('2026-11-29','wknd',[['FM','Final derivations and formulas'],['FM','Mixed numericals'],['FM','Timed half paper 2'],['FM','Light skim'],['FM','Weak topics, last pass'],['FM','Recall. Sleep early']]),
+    D('2026-11-30','exam',X('FM',['MP','Modules 1–2 important questions'])),
+    D('2026-12-01','free',[['MP','Modules 1–2 important questions'],['MP','Modules 3–4: rolling, forging, drawing, yield criteria'],['MP','PYQs'],['MP','Diagrams and sketches'],['MP','Recall']]),
+    D('2026-12-02','exam',X('MP',['AI','Modules 1–2 revision'])),
+    D('2026-12-03','free',[['AI','Modules 1–2'],['AI','Modules 3–4'],['AI','PYQs'],['AI','Short notes and definitions'],['AI','Recall']]),
+    D('2026-12-04','free',[['AI','Timed PYQ paper'],['AI','Weak topics'],['AI','Concepts and definitions'],['AI','Light revision'],['AI','Recall. Sleep early']]),
+    D('2026-12-05','exam',[['AI','Formula glance only. No new problems.','9:30–11:00 AM'],['AI','Exam: AI & DS','1:30–4:00 PM',1],['EE','Modules 1–2 revision','4:30–6:30 PM']]),
+    D('2026-12-06','wknd',[['EE','Modules 1–2'],['EE','Modules 3–4'],['EE','PYQs'],['EE','Short notes'],['EE','PYQs, timed'],['EE','Recall']]),
+    D('2026-12-07','free',[['EE','Timed PYQ paper'],['EE','Weak topics'],['EE','Revision'],['EE','Light revision'],['EE','Recall. Sleep early']]),
+    D('2026-12-08','exam',X('EE',null))
+  ];
+  var PHASES=[
+    {n:1,t:'Finish the portions',to:'2026-11-02',note:'Internals first: MT lab on 26 Oct, AI retest on 27 Oct, CAD lab and the ECT301 series exam on 28 Oct. After that, Module 3 and 4 content you have not covered, S-target subjects first. Saturdays and Sundays: karate 7–9 AM, then sprints from 9:30 AM that end by 6:30 PM. Modules 1–2 get problems and revision in the next phase.'},
+    {n:2,t:'Second pass and papers',to:'2026-11-23',note:'Problems and revision for Modules 1–2, then PYQs, then timed papers. External labs, both in the third batch: MT lab Thu 12 Nov, 11:30 AM–2:30 PM, and CAD lab Mon 16 Nov, 11:30 AM–2:00 PM. Report 15 minutes early in uniform with your ID card. 11 Nov is the last MT revision day. You handle CAD yourself in the 6:30–8:30 PM sessions from 13 Nov, so this plan has no CAD blocks after 12 Nov. Syllabus deadlines: Maths, MOS, FM and AI by 16 Nov, then MP and EEDS by 18 Nov. MP goes first (14–16 Nov) and EEDS is the buffer on 17–18 Nov. Full mock papers start from 19 Nov.'},
+    {n:3,t:'Exam window',to:'2026-12-08',note:'One subject at a time. Exams run 1:30–4:00 PM, so the morning of each exam is a formula glance only. The evening of an exam day starts the next subject.'}
+  ];
+
+  var pad=function(n){return (n<10?'0':'')+n;};
+  var keyOf=function(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
+  var parse=function(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);};
+  var WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var fmt=function(s){var d=parse(s);return WD[d.getDay()]+' '+d.getDate()+' '+MO[d.getMonth()];};
+  var diff=function(a,b){return Math.round((parse(b)-parse(a))/864e5);};
+  var phaseOf=function(date){return date<=PHASES[0].to?1:(date<=PHASES[1].to?2:3);};
+  var $=function(id){return document.getElementById(id);};
+
+  var TODAY=keyOf(new Date());
+  var FIRST=PLAN[0].date, LAST=PLAN[PLAN.length-1].date;
+
+  var done={}, stamp=0;
+  try{
+    var raw=localStorage.getItem('s3-endsem-v1');
+    if(raw){var o=JSON.parse(raw);done=o.done||{};stamp=o.t||0;}
+  }catch(e){}
+  function saveLocal(){try{localStorage.setItem('s3-endsem-v1',JSON.stringify({done:done,t:stamp}));}catch(e){}}
+
+  function slotTime(day,i,b){return b[2]||SLOTS[day.kind][i];}
+  var allTasks=[];
+  PLAN.forEach(function(day){
+    day.blocks.forEach(function(b,i){
+      if(b[3])return;
+      allTasks.push({id:day.date+'.'+i,sj:b[0],date:day.date});
+    });
+  });
+
+  function taskRow(day,b,i){
+    var id=day.date+'.'+i, time=slotTime(day,i,b);
+    if(b[3]){
+      var st=b[3]===3?'LAB EXAM':(b[3]===2?'TEST':'EXAM');
+      return '<li class="examrow"><span class="stamp">'+st+'</span><span class="txt"><span class="meta"><span class="time">'+time+'</span><span class="sj sj-'+b[0]+'">'+CHIP[b[0]]+'</span></span><span class="what">'+b[1]+'</span></span></li>';
+    }
+    return '<li><label class="row"><input type="checkbox" data-id="'+id+'"'+(done[id]?' checked':'')+'><span class="txt"><span class="meta"><span class="time">'+time+'</span><span class="sj sj-'+b[0]+'">'+CHIP[b[0]]+'</span></span><span class="what">'+b[1]+'</span></span></label></li>';
+  }
+  function tagOf(day){
+    if(day.kind==='college')return 'College day';
+    if(day.kind==='sat')return 'Light day';
+    if(day.date==='2026-10-25')return 'Karate 7–9 AM · AI, minor, labs only';
+    if(day.kind==='wknd')return 'Karate 7–9 AM';
+    if(day.date==='2026-11-16')return 'CAD lab exam · syllabus due: Maths, MOS, FM, AI';
+    if(day.date==='2026-11-18')return 'Syllabus due: MP and EEDS';
+    if(day.kind==='lab')return 'MT lab exam day';
+    if(day.date==='2026-11-11')return 'Day before MT lab exam';
+    if(day.blocks.some(function(b){return b[3];}))return 'Exam day';
+    if(day.date==='2026-11-23')return 'Day before Maths';
+    return '';
+  }
+  function dayHTML(day,isToday){
+    var tag=tagOf(day);
+    return '<article class="day'+(isToday?' today':'')+'"><div class="day-h"><h3>'+fmt(day.date)+'</h3><span class="tag'+(isToday?' now':'')+'">'+(isToday?'Today'+(tag?' · '+tag:''):tag)+'</span></div><ul>'+day.blocks.map(function(b,i){return taskRow(day,b,i);}).join('')+'</ul></article>';
+  }
+
+  /* header, today, exams, plan */
+  $('todayLbl').textContent=fmt(TODAY);
+
+  function renderToday(){
+    var sec=$('todaySec');
+    var day=PLAN.filter(function(d){return d.date===TODAY;})[0];
+    if(day){sec.innerHTML='<h2>Today</h2>'+dayHTML(day,true);return;}
+    if(TODAY<FIRST){
+      var n=diff(TODAY,FIRST);
+      sec.innerHTML='<h2>'+(n===1?'Starts tomorrow':'Starts in '+n+' days')+'</h2>'+dayHTML(PLAN[0],false);
+      return;
+    }
+    sec.innerHTML='<h2>Done</h2><div class="empty">All six exams are over. Open the plan below to see what you ticked.</div>';
+  }
+
+  function renderEvents(){
+    var ev=[];
+    PLAN.forEach(function(day){day.blocks.forEach(function(b){if(b[3]&&day.date>=TODAY)ev.push({date:day.date,sj:b[0],label:b[1]});});});
+    ev=ev.slice(0,6);
+    var sec=$('eventsSec');
+    if(!ev.length){sec.innerHTML='';return;}
+    sec.innerHTML='<h2>Coming up</h2><ul class="events">'+ev.map(function(e){return '<li><span class="ev-d">'+fmt(e.date)+'</span><span class="sj sj-'+e.sj+'">'+CHIP[e.sj]+'</span><span class="ev-t">'+e.label+'</span></li>';}).join('')+'</ul>';
+  }
+
+  function renderNext(){
+    var up=EXAMS.filter(function(e){return e[0]>=TODAY;})[0];
+    var el=$('next');
+    if(!up){el.innerHTML='<div><div class="what" style="font-family:var(--f-display);font-size:30px;font-weight:700;text-transform:uppercase">All exams done</div></div>';return;}
+    var n=diff(TODAY,up[0]);
+    el.innerHTML='<div><div class="big">'+n+'</div></div>'+
+      '<div style="flex:1 1 140px;min-width:0"><div class="what" style="margin:0;font:600 20px/1.2 var(--f-display);text-transform:uppercase;letter-spacing:.02em">'+(n===0?'Exam today: ':(n===1?'Day to ':'Days to '))+SJ[up[1]]+'</div><div class="sub">'+fmt(up[0])+' · '+up[2]+'</div></div>'+
+      '<div class="overall"><div class="num"><span>Blocks done</span><span id="ovNum"></span></div><div class="bar"><i id="ovBar"></i></div></div>';
+  }
+
+  function renderExams(){
+    $('exams').innerHTML=EXAMS.map(function(e){
+      var d=parse(e[0]), n=diff(TODAY,e[0]);
+      var left=n<0?'done':(n===0?'today':'in '+n+' d');
+      return '<li class="ex"><div class="ex-row"><div class="ex-date">'+WD[d.getDay()]+'<b>'+d.getDate()+' '+MO[d.getMonth()]+'</b></div>'+
+        '<div class="ex-name"><strong>'+SJ[e[1]]+'</strong><span>'+e[2]+(e[4]?' · internal '+e[4]:'')+'</span></div>'+
+        '<div class="ex-right"><span class="pill'+(e[3]==='S'?' s':'')+'">'+e[3]+'</span><span class="ex-left">'+left+'</span></div></div>'+
+        '<div class="bar"><i data-sjbar="'+e[1]+'" style="background:var(--c-'+e[1]+')"></i></div>'+
+        '<div class="ex-prog"><span>Prep blocks</span><span data-sjnum="'+e[1]+'"></span></div></li>';
+    }).join('');
+  }
+
+  function renderPlan(){
+    var cur=TODAY<=PHASES[0].to?1:(TODAY<=PHASES[1].to?2:3);
+    $('plan').innerHTML=PHASES.map(function(p){
+      var days=PLAN.filter(function(d){return phaseOf(d.date)===p.n;});
+      var first=days[0].date,last=days[days.length-1].date;
+      return '<details class="phase"'+(p.n===cur?' open':'')+'><summary><span class="ph-t">'+p.t+'</span><span class="ph-m">'+fmt(first)+' to '+fmt(last)+' · <span data-phnum="'+p.n+'"></span></span></summary><div class="ph-body"><p class="ph-note">'+p.note+'</p>'+
+        days.map(function(d){return dayHTML(d,d.date===TODAY);}).join('')+'</div></details>';
+    }).join('');
+  }
+
+  function refresh(){
+    var total=allTasks.length, n=0, per={}, ph={};
+    allTasks.forEach(function(t){
+      var ok=done[t.id]?1:0;
+      n+=ok;
+      var s=per[t.sj]||(per[t.sj]={n:0,t:0});s.t++;s.n+=ok;
+      var p=phaseOf(t.date), q=ph[p]||(ph[p]={n:0,t:0});q.t++;q.n+=ok;
+    });
+    var on=$('ovNum');if(on)on.textContent=n+' / '+total;
+    var ob=$('ovBar');if(ob)ob.style.width=(total?100*n/total:0)+'%';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-sjbar]'),function(el){
+      var s=per[el.getAttribute('data-sjbar')]||{n:0,t:0};
+      el.style.width=(s.t?100*s.n/s.t:0)+'%';
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-sjnum]'),function(el){
+      var s=per[el.getAttribute('data-sjnum')]||{n:0,t:0};
+      el.textContent=s.n+' / '+s.t;
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-phnum]'),function(el){
+      var s=ph[el.getAttribute('data-phnum')]||{n:0,t:0};
+      el.textContent=s.n+' / '+s.t+' done';
+    });
+  }
+  function applyAll(){
+    Array.prototype.forEach.call(document.querySelectorAll('input[data-id]'),function(el){
+      el.checked=!!done[el.getAttribute('data-id')];
+    });
+    refresh();
+  }
+
+  /* cloud sync: optional, falls back to this phone */
+  var cloud=null, writing=false, pending=false, timer=null;
+  function setSync(t){$('syncNote').textContent=t;}
+  function queueCloud(){
+    if(!cloud)return;
+    clearTimeout(timer);
+    timer=setTimeout(flush,700);
+  }
+  function flush(){
+    if(!cloud)return;
+    if(writing){pending=true;return;}
+    writing=true;
+    cloud.set({done:done,t:stamp}).then(function(){setSync('Ticks are saved to your account and on this phone.');},function(){setSync('Ticks are saved on this phone only. Account sync failed.');}).then(function(){
+      writing=false;
+      if(pending){pending=false;flush();}
+    });
+  }
+  function initCloud(){
+    if(!window.claude||!window.claude.use)return;
+    Promise.all([window.claude.use('db'),window.claude.use('user')]).then(function(r){
+      var db=r[0],user=r[1];
+      if(!db||!user)return null;
+      return user.id().then(function(id){
+        if(!id)return null;
+        var ref=db.collection('data/users/'+id).doc('progress');
+        return ref.get().then(function(snap){
+          cloud=ref;
+          var rem=snap.exists?(snap.data()||{}):null;
+          if(rem&&(rem.t||0)>stamp){done=rem.done||{};stamp=rem.t;saveLocal();applyAll();}
+          else if(Object.keys(done).length&&(!rem||stamp>(rem.t||0))){queueCloud();}
+          setSync('Ticks are saved to your account and on this phone.');
+        });
+      });
+    }).catch(function(){});
+  }
+
+  document.addEventListener('change',function(ev){
+    var el=ev.target;
+    if(!el||!el.getAttribute||!el.getAttribute('data-id'))return;
+    var id=el.getAttribute('data-id');
+    if(el.checked)done[id]=1;else delete done[id];
+    stamp=Date.now();
+    saveLocal();
+    Array.prototype.forEach.call(document.querySelectorAll('input[data-id="'+id+'"]'),function(o){o.checked=el.checked;});
+    refresh();
+    queueCloud();
+  });
+
+  renderNext();renderEvents();renderToday();renderExams();renderPlan();refresh();
+  initCloud();
+})();
+</script>
+
+</body></html>
